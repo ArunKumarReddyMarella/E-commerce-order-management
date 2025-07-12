@@ -1,0 +1,263 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+logs/
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+*.ipr
+*.iws
+*.iws
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Spring Boot
+*.pid
+*.pid.lock
+
+# Application specific
+#application-local.yml
+#application-dev.yml
+#application-prod.yml
+#application-test.yml
+
+# Database
+#*.db
+#*.sqlite
+#*.sqlite3
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Node.js (if using any frontend tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Test reports
+test-results/
+reports/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Local configuration files
+#config/local/
+#config/dev/
+#config/prod/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# IDE workspace files
+*.workspace
+*.project
+
+# Application logs
+application.log
+spring.log
+hibernate.log
+
+# Database files
+*.h2.db
+*.h2.db.trace.db
+
+# Redis dump files
+dump.rdb
+
+# Kafka logs
+kafka-logs/
+
+# Elasticsearch
+data/
+
+# MongoDB
+*.lock
+
+# PostgreSQL
+*.sql
+*.dump
+
+# MySQL
+*.sql
+*.dump
+
+# Liquibase
+liquibase.properties
+
+# Flyway
+flyway.conf
+
+# Application properties with sensitive data
+application-secret.yml
+application-credentials.yml
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# JVM crash logs
+hs_err_pid*
+
+# Thread dumps
+*.tdump
+
+# Heap dumps
+*.hprof
+
+# Performance monitoring
+*.perf
+
+# JMeter
+*.jmx
+*.jtl
+
+# Load testing
+*.csv
+
+# Documentation build
+docs/_build/
+site/
+
+# API documentation
+swagger-ui/
+api-docs/
+
+# Monitoring
+prometheus.yml
+grafana/
+
+# Kubernetes
+*.yaml
+*.yml
+!docker-compose.yml
+!docker-compose.override.yml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Ansible
+*.retry
+
+# Jenkins
+Jenkinsfile
+.jenkins/
+
+# Git hooks
+.git/hooks/
+
+# Local development
+local/
+dev/
+prod/

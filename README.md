@@ -47,6 +47,32 @@ ecommerce-microservices/
 
 ## Quick Start
 
+### Option 1: Using PowerShell Script (Recommended)
+1. Run the startup script:
+   ```powershell
+   .\start-services.ps1
+   ```
+
+### Option 2: Manual Startup
+1. Start Config Server first:
+   ```bash
+   cd config-server
+   mvn spring-boot:run
+   ```
+
+2. Start Eureka Server:
+   ```bash
+   cd eureka-server
+   mvn spring-boot:run
+   ```
+
+3. Start other services (in any order):
+   ```bash
+   cd product-service
+   mvn spring-boot:run
+   ```
+
+### Option 3: Docker Compose
 1. Build all services with Maven:
    ```sh
    mvn clean package -DskipTests
@@ -55,6 +81,20 @@ ecommerce-microservices/
    ```sh
    docker-compose up --build
    ```
+
+## Configuration Management
+
+The project uses Spring Cloud Config Server for centralized configuration management:
+
+- **Config Server**: `http://localhost:8888`
+- **Config Repository**: `config-repo/` directory
+- **Common Config**: `config-repo/application.yml`
+- **Service Configs**: `config-repo/{service-name}.yml`
+
+### Testing Config Server
+```powershell
+.\test-config-server.ps1
+```
 
 ## Services
 - **eureka-server**: Service discovery

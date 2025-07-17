@@ -1,0 +1,41 @@
+# Common configuration for all services
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  
+  # Common logging configuration
+logging:
+  level:
+    com.ecommerce: DEBUG
+    org.springframework.cloud: DEBUG
+    org.springframework.web: DEBUG
+  
+  # Common server configuration
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Common management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,configprops
+  endpoint:
+    health:
+      show-details: always
+
+# Common OpenAPI configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method 

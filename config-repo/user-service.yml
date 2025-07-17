@@ -1,0 +1,17 @@
+# User Service specific configuration
+server:
+  port: 8084
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce_userdb?createDatabaseIfNotExist=true
+    username: root
+    password: drowssap
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# User service specific logging
+logging:
+  level:
+    com.ecommerce.userservice: DEBUG 

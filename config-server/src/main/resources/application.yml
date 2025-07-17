@@ -1,0 +1,15 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo
+        git:
+          uri: https://github.com/ArunKumarReddyMarella/E-commerce-order-management/config-repo
+          default-label: master
+          search-paths: config-repo

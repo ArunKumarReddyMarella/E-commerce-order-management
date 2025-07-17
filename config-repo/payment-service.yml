@@ -1,0 +1,17 @@
+# Payment Service specific configuration
+server:
+  port: 8085
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce_paymentdb?createDatabaseIfNotExist=true
+    username: root
+    password: drowssap
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# Payment service specific logging
+logging:
+  level:
+    com.ecommerce.paymentservice: DEBUG 

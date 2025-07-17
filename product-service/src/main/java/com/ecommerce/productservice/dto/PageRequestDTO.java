@@ -13,17 +13,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PageRequestDTO {
+
+    @Builder.Default
     @Min(value = 0, message = "Page number must be 0 or greater")
     private int pageNumber = 0;
 
+    @Builder.Default
     @Min(value = 1, message = "Page size must be at least 1")
     @Max(value = 100, message = "Page size must not exceed 100")
     private int pageSize = 20;
 
+    @Builder.Default
     @Pattern(regexp = "^[a-zA-Z0-9_]+$",
             message = "Sort field can only contain alphanumeric characters and underscores")
     private String sortBy = "updatedAt";
 
+    @Builder.Default
     @Pattern(regexp = "(?i)^(ASC|DESC)$",
             message = "Sort direction must be either 'ASC' or 'DESC'")
     private String sortDirection = "DESC";

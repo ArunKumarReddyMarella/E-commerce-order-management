@@ -1,0 +1,17 @@
+# Notification Service specific configuration
+server:
+  port: 8086
+
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce_notificationdb?createDatabaseIfNotExist=true
+    username: root
+    password: drowssap
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# Notification service specific logging
+logging:
+  level:
+    com.ecommerce.notificationservice: DEBUG 

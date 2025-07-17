@@ -1,0 +1,9 @@
+# Product Service - Local configuration (will be overridden by config-server)
+# This file can be used for local development overrides
+
+# Uncomment and modify for local development if needed
+# spring:
+#   datasource:
+#     url: jdbc:mysql://localhost:3306/ecommerce_productdb?createDatabaseIfNotExist=true
+#     username: root
+#     password: drowssap

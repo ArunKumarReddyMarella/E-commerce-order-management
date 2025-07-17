@@ -1,3 +1,7 @@
+# Include .md files (documentation)
+# Note: .md files are intentionally not ignored to track documentation
+!*.md
+
 # Build output
 /target/
 /build/

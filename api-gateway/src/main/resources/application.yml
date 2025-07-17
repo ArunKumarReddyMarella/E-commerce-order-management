@@ -13,30 +13,37 @@ spring:
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/api/products/**
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/orders/**
+            - Path=/api/orders/**
         - id: inventory-service
           uri: lb://inventory-service
           predicates:
-            - Path=/inventory/**
+            - Path=/api/inventory/**
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**
+            - Path=/api/users/**
         - id: payment-service
           uri: lb://payment-service
           predicates:
-            - Path=/payments/**
+            - Path=/api/payments/**
         - id: notification-service
           uri: lb://notification-service
           predicates:
-            - Path=/notifications/**
+            - Path=/api/notifications/**
   config:
-    import: "configserver:"
+    import: "optional:config-server:"
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ 
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30

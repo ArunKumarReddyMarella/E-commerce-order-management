@@ -19,10 +19,13 @@ import java.time.Instant;
 @Entity
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -30,34 +33,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
-
-    private String phone;
-
-    @Column(nullable = false)
-    private String status; // ACTIVE, INACTIVE, BANNED
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
 
     // Getters and setters
 } 

@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.LocalDate;
 import java.time.Instant;
 
 @Data
@@ -18,9 +17,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "banks")
 @EntityListeners(AuditingEntityListener.class)
-public class UserProfile extends Auditable {
+public class Bank extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,21 +27,9 @@ public class UserProfile extends Auditable {
     @Column(nullable = false)
     private Long userId;
 
-    private String firstName;
-    private String lastName;
-    private String maidenName;
-    private Integer age;
-    private String gender;
-    private String phone;
-    private String birthDate;
-    private String image;
-    private String bloodGroup;
-    private Double height;
-    private Double weight;
-    private String eyeColor;
-    private String hairColor;
-    private String hairType;
-    private String ip;
-    private String macAddress;
-
+    private String cardExpire;
+    private String cardNumber;
+    private String cardType;
+    private String currency;
+    private String iban;
 } 

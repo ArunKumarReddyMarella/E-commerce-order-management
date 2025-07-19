@@ -1,4 +1,4 @@
-package com.ecommerce.productservice.model;
+package com.ecommerce.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,31 +17,22 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "brands")
+@Table(name = "addresses")
 @EntityListeners(AuditingEntityListener.class)
-public class Brand {
+public class Address extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(nullable = false)
+    private Long userId;
 
-    private String description;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    // Getters and setters
+    private String address;
+    private String city;
+    private String state;
+    private String stateCode;
+    private String postalCode;
+    private String country;
+    private Double lat;
+    private Double lng;
 } 

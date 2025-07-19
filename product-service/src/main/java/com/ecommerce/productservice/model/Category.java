@@ -19,7 +19,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "categories")
 @EntityListeners(AuditingEntityListener.class)
-public class Category {
+public class Category extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,20 +28,4 @@ public class Category {
     private String name;
 
     private String description;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    // Getters and setters
 } 

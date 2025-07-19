@@ -16,11 +16,9 @@ public class UserMapper {
     public static UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setPhone(user.getPhone());
-        dto.setStatus(user.getStatus());
+        dto.setPassword(user.getPassword());
         if (user.getRole() != null) {
             dto.setRole(RoleMapper.toDTO(user.getRole()));
         }
@@ -32,11 +30,9 @@ public class UserMapper {
     public static User toEntity(UserDTO dto) {
         User user = new User();
         user.setId(dto.getId());
+        user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setPhone(dto.getPhone());
-        user.setStatus(dto.getStatus());
+        user.setPassword(dto.getPassword());
         if (dto.getRole() != null) {
             user.setRole(RoleMapper.toEntity(dto.getRole()));
         }

@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BrandDTO {
+public class ProductImageDTO {
     private Long id;
-    private String name;
-    private String description;
+    private String url;
 } 

@@ -22,22 +22,42 @@ public class UserMapper {
         if (user.getRole() != null) {
             dto.setRole(RoleMapper.toDTO(user.getRole()));
         }
-        dto.setCreatedAt(user.getCreatedAt());
-        dto.setUpdatedAt(user.getUpdatedAt());
+        if (user.getCreatedAt() != null) {
+            dto.setCreatedAt(user.getCreatedAt());
+        }
+        if (user.getUpdatedAt() != null) {
+            dto.setUpdatedAt(user.getUpdatedAt());
+        }
         return dto;
     }
 
     public static User toEntity(UserDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        
         User user = new User();
-        user.setId(dto.getId());
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+        if (dto.getId() != null) {
+            user.setId(dto.getId());
+        }
+        if (dto.getUsername() != null) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getPassword() != null) {
+            user.setPassword(dto.getPassword());
+        }
         if (dto.getRole() != null) {
             user.setRole(RoleMapper.toEntity(dto.getRole()));
         }
-        user.setCreatedAt(dto.getCreatedAt());
-        user.setUpdatedAt(dto.getUpdatedAt());
+        if (dto.getCreatedAt() != null) {
+            user.setCreatedAt(dto.getCreatedAt());
+        }
+        if (dto.getUpdatedAt() != null) {
+            user.setUpdatedAt(dto.getUpdatedAt());
+        }
         return user;
     }
 } 

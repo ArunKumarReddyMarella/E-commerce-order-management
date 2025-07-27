@@ -4,30 +4,58 @@ import com.ecommerce.notificationservice.dto.NotificationDTO;
 import com.ecommerce.notificationservice.model.Notification;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper for converting between Notification and NotificationDTO objects.
+ * Includes null checks to prevent NullPointerExceptions.
+ */
 @Component
 public class NotificationMapper {
-    private NotificationMapper() {}
+    
+    private NotificationMapper() {
+        // Private constructor to prevent instantiation
+    }
+    
+    /**
+     * Converts a Notification entity to a NotificationDTO.
+     *
+     * @param notification the Notification to convert, can be null
+     * @return the converted NotificationDTO, or null if the input is null
+     */
     public static NotificationDTO toDTO(Notification notification) {
-        NotificationDTO dto = new NotificationDTO();
-        dto.setId(notification.getId());
-        dto.setUserId(notification.getUserId());
-        dto.setType(notification.getType());
-        dto.setStatus(notification.getStatus());
-        dto.setMessage(notification.getMessage());
-        dto.setCreatedAt(notification.getCreatedAt());
-        dto.setReadAt(notification.getReadAt());
-        return dto;
+        if (notification == null) {
+            return null;
+        }
+        
+        return NotificationDTO.builder()
+                .id(notification.getId())
+                .userId(notification.getUserId())
+                .type(notification.getType())
+                .status(notification.getStatus())
+                .message(notification.getMessage())
+                .createdAt(notification.getCreatedAt())
+                .readAt(notification.getReadAt())
+                .build();
     }
 
+    /**
+     * Converts a NotificationDTO to a Notification entity.
+     *
+     * @param dto the NotificationDTO to convert, can be null
+     * @return the converted Notification, or null if the input is null
+     */
     public static Notification toEntity(NotificationDTO dto) {
-        Notification notification = new Notification();
-        notification.setId(dto.getId());
-        notification.setUserId(dto.getUserId());
-        notification.setType(dto.getType());
-        notification.setStatus(dto.getStatus());
-        notification.setMessage(dto.getMessage());
-        notification.setCreatedAt(dto.getCreatedAt());
-        notification.setReadAt(dto.getReadAt());
-        return notification;
+        if (dto == null) {
+            return null;
+        }
+        
+        return Notification.builder()
+                .id(dto.getId())
+                .userId(dto.getUserId())
+                .type(dto.getType())
+                .status(dto.getStatus())
+                .message(dto.getMessage())
+                .createdAt(dto.getCreatedAt())
+                .readAt(dto.getReadAt())
+                .build();
     }
-} 
+}

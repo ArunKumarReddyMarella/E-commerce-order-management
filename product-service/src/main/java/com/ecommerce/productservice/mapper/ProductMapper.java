@@ -11,6 +11,41 @@ import java.util.List;
 public class ProductMapper {
 
     private ProductMapper() {}
+    
+    /**
+     * Merges non-null fields from ProductDTO into an existing Product entity
+     * @param product The existing product to be updated
+     * @param dto The DTO containing updated values
+     * @return The updated Product entity
+     */
+    public static Product mergeWithDTO(Product product, ProductDTO dto) {
+        if (dto == null || product == null) {
+            return product;
+        }
+        
+        if (dto.getTitle() != null) {
+            product.setTitle(dto.getTitle());
+        }
+        if (dto.getDescription() != null) {
+            product.setDescription(dto.getDescription());
+        }
+        if (dto.getPrice() != null) {
+            product.setPrice(dto.getPrice());
+        }
+        if (dto.getStock() != null) {
+            product.setStock(dto.getStock());
+        }
+        if (dto.getSku() != null) {
+            product.setSku(dto.getSku());
+        }
+        if (dto.getBrand() != null) {
+            product.setBrand(dto.getBrand());
+        }
+        // Note: Category should be set in the service layer after validation
+        
+        return product;
+    }
+    
     public static ProductDTO toDTO(Product product) {
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
@@ -22,26 +57,88 @@ public class ProductMapper {
         dto.setBrand(product.getBrand());
         List<ProductImageDTO> productImageDTOs = new ArrayList<>();
         for(ProductImage image : product.getImages()){
-            productImageDTOs.add(ProductImageMapper.toDTO(image));
         }
-        dto.setImageDTOlist(productImageDTOs);
+        if (product.getTitle() != null) {
+            dto.setTitle(product.getTitle());
+        }
+        if (product.getDescription() != null) {
+            dto.setDescription(product.getDescription());
+        }
+        if (product.getPrice() != null) {
+            dto.setPrice(product.getPrice());
+        }
+        if (product.getStock() != null) {
+            dto.setStock(product.getStock());
+        }
+        if (product.getCategory() != null) {
+            dto.setCategoryId(product.getCategory().getId());
+        }
+        if (product.getBrand() != null) {
+            dto.setBrand(product.getBrand());
+        }
+
+        // Safely handle images
+        if (product.getImages() != null) {
+            for (ProductImage image : product.getImages()) {
+                if (image != null) {
+                    ProductImageDTO imageDTO = ProductImageMapper.toDTO(image);
+                    if (imageDTO != null) {
+                        productImageDTOs.add(imageDTO);
+                    }
+                }
+            }
+            dto.setImageDTOlist(productImageDTOs);
+        }
+
         return dto;
     }
 
+    /**
+     * Converts a ProductDTO to a Product entity.
+     * Note: Category should be set in the service layer.
+     *
+     * @param dto the ProductDTO to convert, can be null
+     * @return the converted Product, or null if the input is null
+     */
     public static Product toEntity(ProductDTO dto) {
-        Product product = new Product();
-        product.setId(dto.getId());
-        product.setTitle(dto.getTitle());
-        product.setDescription(dto.getDescription());
-        product.setPrice(dto.getPrice());
-        product.setStock(dto.getStock());
-        // category and brand should be set in the service layer
-        product.setBrand(dto.getBrand());
-        List<ProductImage> productImages = new ArrayList<>();
-        for(ProductImageDTO imageDTO: dto.getImageDTOlist()){
-            productImages.add(ProductImageMapper.toEntity(imageDTO));
+        if (dto == null) {
+            return null;
         }
-        product.setImages(productImages);
+
+        Product product = new Product();
+        if (dto.getId() != null) {
+            product.setId(dto.getId());
+        }
+        if (dto.getTitle() != null) {
+            product.setTitle(dto.getTitle());
+        }
+        if (dto.getDescription() != null) {
+            product.setDescription(dto.getDescription());
+        }
+        if (dto.getPrice() != null) {
+            product.setPrice(dto.getPrice());
+        }
+        if (dto.getStock() != null) {
+            product.setStock(dto.getStock());
+        }
+        if (dto.getBrand() != null) {
+            product.setBrand(dto.getBrand());
+        }
+
+        // Safely handle images
+        if (dto.getImageDTOlist() != null) {
+            List<ProductImage> productImages = new ArrayList<>();
+            for (ProductImageDTO imageDTO : dto.getImageDTOlist()) {
+                if (imageDTO != null) {
+                    ProductImage image = ProductImageMapper.toEntity(imageDTO);
+                    if (image != null) {
+                        productImages.add(image);
+                    }
+                }
+            }
+            product.setImages(productImages);
+        }
+
         return product;
     }
-} 
+}

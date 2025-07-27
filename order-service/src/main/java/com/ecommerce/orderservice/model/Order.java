@@ -1,10 +1,7 @@
 package com.ecommerce.orderservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,10 +14,11 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "orders")
 @EntityListeners(AuditingEntityListener.class)
-public class Order {
+public class Order extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,25 +27,11 @@ public class Order {
     private Long userId;
 
     @Column(nullable = false)
+    private Long addressId;
+
+    @Column(nullable = false)
     private String orderStatus;
 
     @Column(nullable = false)
     private BigDecimal totalAmount;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
-    @Column(nullable = false)
-    private Long addressId;
 } 

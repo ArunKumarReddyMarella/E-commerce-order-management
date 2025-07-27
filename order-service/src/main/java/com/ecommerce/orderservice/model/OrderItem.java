@@ -1,10 +1,8 @@
 package com.ecommerce.orderservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.math.BigDecimal;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,10 +15,11 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "order_items")
 @EntityListeners(AuditingEntityListener.class)
-public class OrderItem {
+public class OrderItem extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,18 +35,4 @@ public class OrderItem {
 
     @Column(nullable = false)
     private BigDecimal price;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
 } 

@@ -1,5 +1,6 @@
 package com.ecommerce.userservice.controller;
 
+import com.ecommerce.userservice.dto.AddressDTO;
 import com.ecommerce.userservice.dto.UserDTO;
 import com.ecommerce.userservice.dto.PageRequestDTO;
 import com.ecommerce.userservice.service.UserService;
@@ -8,9 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,6 +25,14 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    //get user address
+    @GetMapping("/{id}/address")
+    public ResponseEntity<AddressDTO> getUserAddress(@PathVariable Long id) {
+        return userService.getUserAddress(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -47,5 +57,11 @@ public class UserController {
     @PostMapping("/list")
     public ResponseEntity<Page<UserDTO>> listPaginated(@RequestBody PageRequestDTO pageRequestDTO) {
         return ResponseEntity.ok(userService.listUsersPaginated(pageRequestDTO));
+    }
+    
+    @GetMapping("/verify/{userId}")
+    public ResponseEntity<Boolean> verifyUser(@PathVariable Long userId) {
+        Optional<UserDTO> user = userService.getUserById(userId);
+        return ResponseEntity.ok(user.isPresent() && user.get().isActive());
     }
 } 

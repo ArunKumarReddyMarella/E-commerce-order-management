@@ -1,14 +1,24 @@
 spring:
   config:
-    import: "configserver:"
+    import: "optional:configserver:"  # Make config server optional
   application:
     name: notification-service
   cloud:
     config:
       uri: http://localhost:8888
-      fail-fast: true
+      fail-fast: false  # Don't fail if config server is not available
       retry:
         initial-interval: 1000
         max-interval: 2000
         max-attempts: 6
-        multiplier: 1.1 
+        multiplier: 1.1
+      override-none: true  # Allow local overrides
+      override-system-properties: false
+
+# Enable debug logging for Kafka
+logging:
+  level:
+    org.springframework.kafka: DEBUG
+    org.apache.kafka: DEBUG
+    org.apache.kafka.clients.consumer.internals: DEBUG
+    com.ecommerce.notificationservice: DEBUG

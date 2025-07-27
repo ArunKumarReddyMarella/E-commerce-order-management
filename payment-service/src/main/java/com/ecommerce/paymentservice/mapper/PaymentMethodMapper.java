@@ -12,26 +12,58 @@ public class PaymentMethodMapper {
     }
 
     public static PaymentMethodDTO toDTO(PaymentMethod paymentMethod) {
+        if (paymentMethod == null) {
+            return null;
+        }
+        
         PaymentMethodDTO dto = new PaymentMethodDTO();
-        dto.setId(paymentMethod.getId());
-        dto.setUserId(paymentMethod.getUserId());
-        dto.setType(paymentMethod.getType());
-        dto.setProvider(paymentMethod.getProvider());
-        dto.setAccountNumber(paymentMethod.getAccountNumber());
-        dto.setExpiry(paymentMethod.getExpiry());
+        if (paymentMethod.getId() != null) {
+            dto.setId(paymentMethod.getId());
+        }
+        if (paymentMethod.getUserId() != null) {
+            dto.setUserId(paymentMethod.getUserId());
+        }
+        if (paymentMethod.getType() != null) {
+            dto.setType(paymentMethod.getType());
+        }
+        if (paymentMethod.getProvider() != null) {
+            dto.setProvider(paymentMethod.getProvider());
+        }
+        if (paymentMethod.getAccountNumber() != null) {
+            dto.setAccountNumber(paymentMethod.getAccountNumber());
+        }
+        if (paymentMethod.getExpiry() != null) {
+            dto.setExpiry(paymentMethod.getExpiry());
+        }
         dto.setDefault(paymentMethod.isDefault());
         return dto;
     }
 
     public static PaymentMethod toEntity(PaymentMethodDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        
         PaymentMethod paymentMethod = new PaymentMethod();
-        paymentMethod.setId(dto.getId());
-        paymentMethod.setUserId(dto.getUserId());
-        paymentMethod.setType(dto.getType());
-        paymentMethod.setProvider(dto.getProvider());
-        paymentMethod.setAccountNumber(dto.getAccountNumber());
-        paymentMethod.setExpiry(dto.getExpiry());
+        if (dto.getId() != null) {
+            paymentMethod.setId(dto.getId());
+        }
+        if (dto.getUserId() != null) {
+            paymentMethod.setUserId(dto.getUserId());
+        }
+        if (dto.getType() != null) {
+            paymentMethod.setType(dto.getType());
+        }
+        if (dto.getProvider() != null) {
+            paymentMethod.setProvider(dto.getProvider());
+        }
+        if (dto.getAccountNumber() != null) {
+            paymentMethod.setAccountNumber(dto.getAccountNumber());
+        }
+        if (dto.getExpiry() != null) {
+            paymentMethod.setExpiry(dto.getExpiry());
+        }
         paymentMethod.setDefault(dto.isDefault());
         return paymentMethod;
     }
-} 
+}

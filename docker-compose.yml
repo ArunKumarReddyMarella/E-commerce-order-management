@@ -37,20 +37,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=drowssap
 
-  inventory-service:
-    build: ./inventory-service
-    ports:
-      - "8082:8082"
-    depends_on:
-      - eureka-server
-      - config-server
-      - inventory-db
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DATASOURCE_URL=jdbc:mysql://inventory-db:3306/ecommerce_inventorydb
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=drowssap
-
   order-service:
     build: ./order-service
     ports:
@@ -119,17 +105,6 @@ services:
     volumes:
       - product-db-data:/var/lib/postgresql/data
 
-  inventory-db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: inventorydb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5434:5432"
-    volumes:
-      - inventory-db-data:/var/lib/postgresql/data
-
   order-db:
     image: postgres:15
     environment:
@@ -178,12 +153,14 @@ services:
       - zookeeper
     ports:
       - "9092:9092"
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   # Redis
   redis:
@@ -195,7 +172,6 @@ services:
 
 volumes:
   product-db-data:
-  inventory-db-data:
   order-db-data:
   payment-db-data:
   user-db-data:

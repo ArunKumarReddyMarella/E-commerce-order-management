@@ -1,12 +1,16 @@
 import requests
 import mysql.connector
+from mysql.connector import Error
 
-ROLE_MAP = {
-    "admin": 1,
-    "moderator": 2,
-    "user": 3
-}
-# -----------------------
+# Role definitions with their IDs and descriptions
+ROLES = [
+    {"id": 1, "name": "admin", "description": "Administrator with full access"},
+    {"id": 2, "name": "moderator", "description": "Moderator with limited admin access"},
+    {"id": 3, "name": "user", "description": "Regular user account"}
+]
+
+# Map role names to their IDs for easy lookup
+ROLE_MAP = {role["name"]: role["id"] for role in ROLES}
 
 def connect_to_database(host, database, user, password):
     """Establish a connection to the MySQL database."""
@@ -31,11 +35,49 @@ def fetch_users():
     return response.json()["users"]
 
 
+def ensure_roles_exist(cursor):
+    """Ensure all required roles exist in the database."""
+    try:
+        # Check if roles table exists and has data
+        cursor.execute("""
+            SELECT COUNT(*) FROM information_schema.tables 
+            WHERE table_schema = 'ecommerce_userdb' 
+            AND table_name = 'roles'
+        """)
+        table_exists = cursor.fetchone()[0] > 0
+        
+        if not table_exists:
+            print("Roles table does not exist. Please ensure the database is properly set up.")
+            return False
+            
+        # Insert roles that don't exist
+        for role in ROLES:
+            cursor.execute("SELECT id FROM roles WHERE id = %s", (role["id"],))
+            if not cursor.fetchone():
+                cursor.execute("""
+                    INSERT INTO roles (id, name, description)
+                    VALUES (%s, %s, %s)
+                """, (role["id"], role["name"], role["description"]))
+                print(f"Added role: {role['name']}")
+        return True
+    except Error as e:
+        print(f"Error ensuring roles exist: {e}")
+        return False
+
 def main():
     users = fetch_users()
-    # print(users)
     conn = connect_to_database("localhost", "ecommerce_userdb", "root", "drowssap")
+    if not conn:
+        return
+        
     cursor = conn.cursor()
+    
+    # Ensure required roles exist before proceeding with user creation
+    if not ensure_roles_exist(cursor):
+        print("Failed to ensure required roles exist. Exiting.")
+        cursor.close()
+        conn.close()
+        return
 
     for user in users:
         user_id = user["id"]
@@ -46,10 +88,18 @@ def main():
         role_id = ROLE_MAP.get(role, 3)
         print(user)
         # Insert into users
-        cursor.execute("""
-            INSERT INTO users (id, username, email, password, role_id)
-            VALUES (%s, %s, %s, %s, %s)
-            """, (user_id, username, email, password, role_id))
+        try:
+            cursor.execute("""
+                INSERT INTO users (id, username, email, password, role_id)
+                VALUES (%s, %s, %s, %s, %s)
+                """, (user_id, username, email, password, role_id))
+        except mysql.connector.IntegrityError as e:
+            if e.errno == 1062:  # Duplicate entry error
+                print(f"User {username} already exists, skipping...")
+                continue
+            else:
+                print(f"Error inserting user {username}: {e}")
+                continue
 
         # Insert into user_profiles
         cursor.execute("""
@@ -116,10 +166,15 @@ def main():
             bank.get("iban") or ""
         ))
 
-    conn.commit()
-    cursor.close()
-    conn.close()
-    print("Database population complete.")
+    try:
+        conn.commit()
+        print("Database population completed successfully!")
+    except Error as e:
+        print(f"Error committing changes: {e}")
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
 
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ This repository contains centralized configuration for all microservices in the 
 | Service | Port | Database | Config File |
 |---------|------|----------|-------------|
 | Product Service | 8081 | ecommerce_productdb | product-service.yml |
-| Inventory Service | 8082 | ecommerce_inventorydb | inventory-service.yml |
 | Order Service | 8083 | ecommerce_orderdb | order-service.yml |
 | User Service | 8084 | ecommerce_userdb | user-service.yml |
 | Payment Service | 8085 | ecommerce_paymentdb | payment-service.yml |

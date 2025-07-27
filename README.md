@@ -9,7 +9,6 @@ This project is a microservices-based e-commerce backend system, built with Spri
 ```
 API Gateway (Spring Cloud Gateway)
 ├── Product Service (Port 8081)
-├── Inventory Service (Port 8082)
 ├── Order Service (Port 8083)
 ├── Payment Service (Port 8084)
 ├── Notification Service (Port 8085)
@@ -28,7 +27,6 @@ ecommerce-microservices/
 ├── config-server/
 ├── api-gateway/
 ├── product-service/
-├── inventory-service/
 ├── order-service/
 ├── payment-service/
 ├── notification-service/
@@ -101,7 +99,6 @@ The project uses Spring Cloud Config Server for centralized configuration manage
 - **config-server**: Centralized configuration
 - **api-gateway**: Entry point for all clients
 - **product-service**: Manages products
-- **inventory-service**: Manages inventory
 - **order-service**: Handles orders
 - **payment-service**: Handles payments
 - **notification-service**: Sends notifications

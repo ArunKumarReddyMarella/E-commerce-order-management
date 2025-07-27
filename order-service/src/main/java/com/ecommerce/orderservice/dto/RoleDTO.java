@@ -1,4 +1,4 @@
-package com.ecommerce.inventoryservice.dto;
+package com.ecommerce.orderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InventoryDTO {
+public class RoleDTO {
     private Long id;
-    private Long productId;
-    private Integer quantity;
-    private Long warehouseId;
-    // Getters and setters
+    private String name;
+    private String description;
 } 

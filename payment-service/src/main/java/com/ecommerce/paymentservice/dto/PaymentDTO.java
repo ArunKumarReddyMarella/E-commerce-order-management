@@ -22,5 +22,4 @@ public class PaymentDTO {
     private String transactionId;
     private Instant createdAt;
     private Instant updatedAt;
-    // Getters and setters
 } 

@@ -12,24 +12,56 @@ public class RefundMapper {
     }
 
     public static RefundDTO toDTO(Refund refund) {
+        if (refund == null) {
+            return null;
+        }
+        
         RefundDTO dto = new RefundDTO();
-        dto.setId(refund.getId());
-        dto.setPaymentId(refund.getPaymentId());
-        dto.setAmount(refund.getAmount());
-        dto.setReason(refund.getReason());
-        dto.setStatus(refund.getStatus());
-        dto.setCreatedAt(refund.getCreatedAt());
+        if (refund.getId() != null) {
+            dto.setId(refund.getId());
+        }
+        if (refund.getPaymentId() != null) {
+            dto.setPaymentId(refund.getPaymentId());
+        }
+        if (refund.getAmount() != null) {
+            dto.setAmount(refund.getAmount());
+        }
+        if (refund.getReason() != null) {
+            dto.setReason(refund.getReason());
+        }
+        if (refund.getStatus() != null) {
+            dto.setStatus(refund.getStatus());
+        }
+        if (refund.getCreatedAt() != null) {
+            dto.setCreatedAt(refund.getCreatedAt());
+        }
         return dto;
     }
 
     public static Refund toEntity(RefundDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        
         Refund refund = new Refund();
-        refund.setId(dto.getId());
-        refund.setPaymentId(dto.getPaymentId());
-        refund.setAmount(dto.getAmount());
-        refund.setReason(dto.getReason());
-        refund.setStatus(dto.getStatus());
-        refund.setCreatedAt(dto.getCreatedAt());
+        if (dto.getId() != null) {
+            refund.setId(dto.getId());
+        }
+        if (dto.getPaymentId() != null) {
+            refund.setPaymentId(dto.getPaymentId());
+        }
+        if (dto.getAmount() != null) {
+            refund.setAmount(dto.getAmount());
+        }
+        if (dto.getReason() != null) {
+            refund.setReason(dto.getReason());
+        }
+        if (dto.getStatus() != null) {
+            refund.setStatus(dto.getStatus());
+        }
+        if (dto.getCreatedAt() != null) {
+            refund.setCreatedAt(dto.getCreatedAt());
+        }
         return refund;
     }
-} 
+}

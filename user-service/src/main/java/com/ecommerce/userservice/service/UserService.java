@@ -1,9 +1,12 @@
 package com.ecommerce.userservice.service;
 
+import com.ecommerce.userservice.dto.AddressDTO;
 import com.ecommerce.userservice.dto.UserDTO;
 import com.ecommerce.userservice.dto.PageRequestDTO;
+import com.ecommerce.userservice.mapper.AddressMapper;
 import com.ecommerce.userservice.mapper.UserMapper;
 import com.ecommerce.userservice.model.User;
+import com.ecommerce.userservice.repository.AddressRepository;
 import com.ecommerce.userservice.repository.RoleRepository;
 import com.ecommerce.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
 
     public UserDTO createUser(UserDTO userDTO) {
@@ -61,4 +66,8 @@ public class UserService {
     public Optional<UserDTO> findByEmail(String email) {
          return userRepository.findByEmail(email).map(UserMapper::toDTO);
     }
-} 
+
+    public Optional<AddressDTO> getUserAddress(Long userId) {
+        return addressRepository.findByUserId(userId).map(AddressMapper::toDTO);
+    }
+}

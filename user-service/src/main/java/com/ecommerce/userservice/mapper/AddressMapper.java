@@ -7,32 +7,82 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressMapper {
     private AddressMapper() {}
+    
     public static AddressDTO toDTO(Address address) {
+        if (address == null) {
+            return null;
+        }
+        
         AddressDTO dto = new AddressDTO();
-        dto.setId(address.getId());
-        dto.setUserId(address.getUserId());
-        dto.setAddress(address.getAddress());
-        dto.setCity(address.getCity());
-        dto.setState(address.getState());
-        dto.setStateCode(address.getStateCode());
-        dto.setPostalCode(address.getPostalCode());
-        dto.setCountry(address.getCountry());
-        dto.setLat(address.getLat());
-        dto.setLng(address.getLng());
+        if (address.getId() != null) {
+            dto.setId(address.getId());
+        }
+        if (address.getUserId() != null) {
+            dto.setUserId(address.getUserId());
+        }
+        if (address.getAddress() != null) {
+            dto.setAddress(address.getAddress());
+        }
+        if (address.getCity() != null) {
+            dto.setCity(address.getCity());
+        }
+        if (address.getState() != null) {
+            dto.setState(address.getState());
+        }
+        if (address.getStateCode() != null) {
+            dto.setStateCode(address.getStateCode());
+        }
+        if (address.getPostalCode() != null) {
+            dto.setPostalCode(address.getPostalCode());
+        }
+        if (address.getCountry() != null) {
+            dto.setCountry(address.getCountry());
+        }
+        if (address.getLat() != null) {
+            dto.setLat(address.getLat());
+        }
+        if (address.getLng() != null) {
+            dto.setLng(address.getLng());
+        }
         return dto;
     }
+    
     public static Address toEntity(AddressDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        
         Address address = new Address();
-        address.setId(dto.getId());
-        address.setUserId(dto.getUserId());
-        address.setAddress(dto.getAddress());
-        address.setCity(dto.getCity());
-        address.setState(dto.getState());
-        address.setStateCode(dto.getStateCode());
-        address.setPostalCode(dto.getPostalCode());
-        address.setCountry(dto.getCountry());
-        address.setLat(dto.getLat());
-        address.setLng(dto.getLng());
+        if (dto.getId() != null) {
+            address.setId(dto.getId());
+        }
+        if (dto.getUserId() != null) {
+            address.setUserId(dto.getUserId());
+        }
+        if (dto.getAddress() != null) {
+            address.setAddress(dto.getAddress());
+        }
+        if (dto.getCity() != null) {
+            address.setCity(dto.getCity());
+        }
+        if (dto.getState() != null) {
+            address.setState(dto.getState());
+        }
+        if (dto.getStateCode() != null) {
+            address.setStateCode(dto.getStateCode());
+        }
+        if (dto.getPostalCode() != null) {
+            address.setPostalCode(dto.getPostalCode());
+        }
+        if (dto.getCountry() != null) {
+            address.setCountry(dto.getCountry());
+        }
+        if (dto.getLat() != null) {
+            address.setLat(dto.getLat());
+        }
+        if (dto.getLng() != null) {
+            address.setLng(dto.getLng());
+        }
         return address;
     }
 } 

@@ -4,22 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.Instant;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "addresses")
 @EntityListeners(AuditingEntityListener.class)
-public class Address {
+public class Address extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,34 +24,12 @@ public class Address {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
-    private String street;
-
-    @Column(nullable = false)
+    private String address;
     private String city;
-
-    @Column(nullable = false)
     private String state;
-
-    @Column(nullable = false)
+    private String stateCode;
     private String postalCode;
-
-    @Column(nullable = false)
     private String country;
-
-    private String phone;
-
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedBy
-    private String updatedBy;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-} 
+    private Double lat;
+    private Double lng;
+}

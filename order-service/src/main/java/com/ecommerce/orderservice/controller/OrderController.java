@@ -1,8 +1,10 @@
 package com.ecommerce.orderservice.controller;
 
 import com.ecommerce.orderservice.dto.OrderDTO;
+import com.ecommerce.orderservice.dto.OrderRequest;
 import com.ecommerce.orderservice.dto.PageRequestDTO;
 import com.ecommerce.orderservice.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-        return ResponseEntity.ok(orderService.createOrder(orderDTO));
+    public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
+        return ResponseEntity.ok(orderService.createOrder(orderRequest));
     }
 
     @GetMapping("/{id}")

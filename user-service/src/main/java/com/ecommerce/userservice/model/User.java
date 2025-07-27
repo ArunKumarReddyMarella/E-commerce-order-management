@@ -36,6 +36,4 @@ public class User extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
-    // Getters and setters
 } 

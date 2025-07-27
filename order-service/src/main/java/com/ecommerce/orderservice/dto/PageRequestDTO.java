@@ -31,4 +31,4 @@ public class PageRequestDTO {
     @Pattern(regexp = "(?i)^(ASC|DESC)$",
             message = "Sort direction must be either 'ASC' or 'DESC'")
     private String sortDirection = "DESC";
-}
+} 

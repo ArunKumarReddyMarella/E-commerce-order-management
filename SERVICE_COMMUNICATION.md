@@ -24,23 +24,18 @@ Based on the analysis of all entities across your microservices, here's a compre
     - `Category` (id, name, description)
     - `Brand` (id, name, description)
 
-3. **Inventory Service** (Port: 8082)
-    - `Inventory` (id, productId, quantity, warehouseId)
-    - `Warehouse` (id, name, location, capacity)
-    - `StockMovement` (id, inventoryId, quantityChange, movementType, timestamp, reference)
-
-4. **Order Service** (Port: 8083)
+3. **Order Service** (Port: 8083)
     - `Order` (id, userId, orderStatus, totalAmount, addressId)
     - `OrderItem` (id, orderId, productId, quantity, price)
     - `Address` (id, userId, street, city, state, postalCode, country, phone)
 
-5. **Payment Service** (Port: 8084)
+4. **Payment Service** (Port: 8084)
     - `Payment` (id, orderId, userId, amount, paymentMethod, status, transactionId)
     - `PaymentMethod` (id, userId, type, provider, accountNumber, expiry, isDefault)
     - `Transaction` (id, paymentId, type, amount, status)
     - `Refund` (id, paymentId, amount, reason, status)
 
-6. **Notification Service** (Port: 8085)
+5. **Notification Service** (Port: 8085)
     - `Notification` (id, userId, type, status, message, readAt)
 
 ## 🔄 Service Communication Patterns
@@ -57,30 +52,6 @@ GET /api/users/{userId}/addresses - Get user addresses for order
 ```
 GET /api/products/{productId} - Get product details for order items
 POST /api/products/batch - Get multiple products by IDs
-```
-
-#### **Order Service → Inventory Service**
-```
-POST /api/inventory/check-availability - Check stock availability
-POST /api/inventory/reserve-stock - Reserve stock for order
-POST /api/inventory/release-stock - Release reserved stock if order fails
-```
-
-#### **Payment Service → User Service**
-```
-GET /api/users/{userId} - Validate user for payment
-GET /api/users/{userId}/payment-methods - Get user's payment methods
-```
-
-#### **Payment Service → Order Service**
-```
-GET /api/orders/{orderId} - Get order details for payment
-PUT /api/orders/{orderId}/status - Update order status after payment
-```
-
-#### **Notification Service → User Service**
-```
-GET /api/users/{userId} - Get user details for notifications
 ```
 
 ### **2. Asynchronous Communication (Kafka Events)**
@@ -103,29 +74,6 @@ GET /api/users/{userId} - Get user details for notifications
   "oldStatus": "PENDING",
   "newStatus": "CONFIRMED",
   "timestamp": "2024-01-15T10:35:00Z"
-}
-```
-
-#### **Inventory Events**
-```json
-// Stock Reserved Event
-{
-  "eventType": "STOCK_RESERVED",
-  "orderId": 123,
-  "productId": 789,
-  "quantity": 2,
-  "warehouseId": 1,
-  "timestamp": "2024-01-15T10:32:00Z"
-}
-
-// Stock Movement Event
-{
-  "eventType": "STOCK_MOVEMENT",
-  "inventoryId": 456,
-  "quantityChange": -2,
-  "movementType": "OUT",
-  "reference": "ORDER_123",
-  "timestamp": "2024-01-15T10:33:00Z"
 }
 ```
 
@@ -223,10 +171,9 @@ Kafka Topics:
 1. Client → API Gateway → Order Service
 2. Order Service → User Service (validate user)
 3. Order Service → Product Service (get product details)
-4. Order Service → Inventory Service (check/reserve stock)
-5. Order Service → Payment Service (create payment)
-6. Order Service → Notification Service (send confirmation)
-7. Events published to Kafka for other services
+4. Order Service → Payment Service (create payment)
+5. Order Service → Notification Service (send confirmation)
+6. Events published to Kafka for other services
 ```
 
 ### **Payment Processing Flow**
@@ -235,18 +182,7 @@ Kafka Topics:
 2. Payment Service → Order Service (get order details)
 3. Payment Service → External Gateway (process payment)
 4. Payment Service → Order Service (update order status)
-5. Payment Service → Inventory Service (confirm stock deduction)
-6. Payment Service → Notification Service (send payment confirmation)
-```
-
-### **Inventory Management Flow**
-```
-1. Inventory Service → Product Service (sync product changes)
-2. Inventory Service → Warehouse Service (manage warehouse capacity)
-3. Stock movements trigger events for:
-   - Order Service (stock availability updates)
-   - Notification Service (low stock alerts)
-   - Analytics Service (inventory reports)
+5. Payment Service → Notification Service (send payment confirmation)
 ```
 
 ## 🔧 Implementation Recommendations
@@ -256,7 +192,6 @@ Kafka Topics:
 # Order Service Dependencies
 - User Service (user validation, addresses)
 - Product Service (product details)
-- Inventory Service (stock management)
 - Payment Service (payment processing)
 - Notification Service (order notifications)
 
@@ -264,10 +199,6 @@ Kafka Topics:
 - User Service (user validation)
 - Order Service (order details)
 - Notification Service (payment notifications)
-
-# Inventory Service Dependencies
-- Product Service (product sync)
-- Notification Service (stock alerts)
 ```
 
 ### **2. Data Consistency**

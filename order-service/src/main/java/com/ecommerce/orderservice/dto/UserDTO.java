@@ -1,4 +1,4 @@
-package com.ecommerce.userservice.dto;
+package com.ecommerce.orderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,6 @@ public class UserDTO {
     private String email;
     private String password;
     private RoleDTO role;
-    private boolean active = true; // Default to true for backward compatibility
     private Instant createdAt;
     private Instant updatedAt;
 } 

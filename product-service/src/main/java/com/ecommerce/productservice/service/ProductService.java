@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,7 +35,8 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        Product product = ProductMapper.toEntity(productDTO);
+        Product productToUpdate = productRepository.findById(productDTO.getId()).orElseThrow(() -> new RuntimeException("Product not found"));
+        Product product = ProductMapper.mergeWithDTO(productToUpdate, productDTO);
         product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElse(null));
         product.setBrand(productDTO.getBrand());
         Product updated = productRepository.save(product);

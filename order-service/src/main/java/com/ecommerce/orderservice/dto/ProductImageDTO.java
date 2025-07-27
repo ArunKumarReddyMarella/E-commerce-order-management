@@ -1,4 +1,4 @@
-package com.ecommerce.inventoryservice.dto;
+package com.ecommerce.orderservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WarehouseDTO {
+public class ProductImageDTO {
     private Long id;
-    private String name;
-    private String location;
-    private Integer capacity;
-    // Getters and setters
+    private String url;
 } 

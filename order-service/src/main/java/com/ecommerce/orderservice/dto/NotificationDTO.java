@@ -5,19 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddressDTO {
+public class  NotificationDTO {
     private Long id;
     private Long userId;
-    private String address;
-    private String city;
-    private String state;
-    private String stateCode;
-    private String postalCode;
-    private String country;
-    private Double lat;
-    private Double lng;
-}
+    private String type;
+    private String status;
+    private String message;
+    private Instant createdAt;
+    private Instant readAt;
+} 

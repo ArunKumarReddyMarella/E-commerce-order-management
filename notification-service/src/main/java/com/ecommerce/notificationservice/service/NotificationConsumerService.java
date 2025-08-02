@@ -11,6 +11,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,9 +35,10 @@ public class NotificationConsumerService {
             
             // Convert DTO to entity and save to database
             Notification notification = notificationMapper.toEntity(notificationDTO);
+            notification.setReadAt(Instant.now());
             notificationRepository.save(notification);
             
-            log.info("Successfully processed notification with ID: {}", notification.getId());
+            log.info("Successfully processed notification: {}", notification);
             
             // Here you could add additional notification delivery logic (email, SMS, push, etc.)
             // For example: notificationDeliveryService.sendEmail(notification);

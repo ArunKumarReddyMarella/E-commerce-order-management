@@ -1,9 +1,32 @@
 # Payment Service - Local configuration (will be overridden by config-server)
 # This file can be used for local development overrides
 
-# Uncomment and modify for local development if needed
-# spring:
-#   datasource:
-#     url: jdbc:mysql://localhost:3306/ecommerce_paymentdb?createDatabaseIfNotExist=true
-#     username: root
-#     password: drowssap 
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092  # Default Kafka server for local development
+    
+  # Uncomment and modify for local development if needed
+  # datasource:
+  #   url: jdbc:mysql://localhost:3306/ecommerce_paymentdb?createDatabaseIfNotExist=true
+  #   username: root
+  #   password: drowssap
+    consumer:
+      group-id: payment-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.ecommerce.*"
+    
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: all
+        retries: 3
+        enable.idempotence: true
+
+kafka:
+  topic:
+    payment-refund-requests: payment.refund.requests
+    payment-refund-results: payment.refund.results

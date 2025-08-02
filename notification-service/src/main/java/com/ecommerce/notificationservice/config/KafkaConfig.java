@@ -3,6 +3,10 @@ package com.ecommerce.notificationservice.config;
 import com.ecommerce.notificationservice.dto.NotificationDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.FixedBackOff;
+import org.springframework.kafka.listener.DefaultErrorHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +18,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 public class KafkaConfig {
 
@@ -29,11 +34,14 @@ public class KafkaConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         
-        // Use String deserializer for key and JSON deserializer for value
+        // Configure JSON deserializer
+        JsonDeserializer<NotificationDTO> deserializer = new JsonDeserializer<>(NotificationDTO.class, false);
+        deserializer.addTrustedPackages("com.ecommerce.notificationservice.dto");
+        
         return new DefaultKafkaConsumerFactory<>(
             props,
             new StringDeserializer(),
-            new JsonDeserializer<>(NotificationDTO.class, false)
+            deserializer
         );
     }
 
@@ -42,6 +50,16 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, NotificationDTO> factory = 
             new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        
+        // Configure error handler
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler(
+            (record, exception) -> {
+                log.error("Error processing notification: {}", record, exception);
+            },
+            new FixedBackOff(1000L, 3) // 3 retries with 1 second interval
+        );
+        
+        factory.setCommonErrorHandler(errorHandler);
         return factory;
     }
 }

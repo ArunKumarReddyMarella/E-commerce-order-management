@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,18 @@ public class NotificationService {
         return notificationRepository.findById(id).map(NotificationMapper::toDTO);
     }
 
+    @Transactional
     public NotificationDTO updateNotification(NotificationDTO notificationDTO) {
-        Notification notification = NotificationMapper.toEntity(notificationDTO);
-        Notification updated = notificationRepository.save(notification);
-        return NotificationMapper.toDTO(updated);
+        // Fetch the existing notification
+        Notification existingNotification = notificationRepository.findById(notificationDTO.getId())
+            .orElseThrow(() -> new RuntimeException("Notification not found with id: " + notificationDTO.getId()));
+        
+        // Merge the DTO data with the existing notification
+        Notification updatedNotification = NotificationMapper.mergeWithDTO(existingNotification, notificationDTO);
+        
+        // Save and return the updated notification
+        Notification savedNotification = notificationRepository.save(updatedNotification);
+        return NotificationMapper.toDTO(savedNotification);
     }
 
     public void deleteNotification(Long id) {

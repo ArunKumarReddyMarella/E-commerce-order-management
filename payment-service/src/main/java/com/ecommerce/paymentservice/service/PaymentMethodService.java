@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,18 @@ public class PaymentMethodService {
         return paymentMethodRepository.findById(id).map(PaymentMethodMapper::toDTO);
     }
 
+    @Transactional
     public PaymentMethodDTO updatePaymentMethod(PaymentMethodDTO paymentMethodDTO) {
-        PaymentMethod paymentMethod = PaymentMethodMapper.toEntity(paymentMethodDTO);
-        PaymentMethod updated = paymentMethodRepository.save(paymentMethod);
-        return PaymentMethodMapper.toDTO(updated);
+        // Fetch the existing payment method
+        PaymentMethod existingPaymentMethod = paymentMethodRepository.findById(paymentMethodDTO.getId())
+            .orElseThrow(() -> new RuntimeException("Payment method not found with id: " + paymentMethodDTO.getId()));
+        
+        // Merge the DTO data with the existing payment method
+        PaymentMethod updatedPaymentMethod = PaymentMethodMapper.mergeWithDTO(existingPaymentMethod, paymentMethodDTO);
+        
+        // Save and return the updated payment method
+        PaymentMethod savedPaymentMethod = paymentMethodRepository.save(updatedPaymentMethod);
+        return PaymentMethodMapper.toDTO(savedPaymentMethod);
     }
 
     public void deletePaymentMethod(Long id) {

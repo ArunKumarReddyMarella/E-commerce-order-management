@@ -66,4 +66,35 @@ public class PaymentMethodMapper {
         paymentMethod.setDefault(dto.isDefault());
         return paymentMethod;
     }
+    
+    /**
+     * Merges non-null fields from PaymentMethodDTO into an existing PaymentMethod entity
+     * @param paymentMethod The existing payment method to be updated
+     * @param dto The DTO containing updated values
+     * @return The updated PaymentMethod entity
+     */
+    public static PaymentMethod mergeWithDTO(PaymentMethod paymentMethod, PaymentMethodDTO dto) {
+        if (dto == null || paymentMethod == null) {
+            return paymentMethod;
+        }
+        
+        if (dto.getType() != null) {
+            paymentMethod.setType(dto.getType());
+        }
+        if (dto.getProvider() != null) {
+            paymentMethod.setProvider(dto.getProvider());
+        }
+        if (dto.getAccountNumber() != null) {
+            paymentMethod.setAccountNumber(dto.getAccountNumber());
+        }
+        if (dto.getExpiry() != null) {
+            paymentMethod.setExpiry(dto.getExpiry());
+        }
+        // Always update the default status as it's a primitive boolean and doesn't support null
+        paymentMethod.setDefault(dto.isDefault());
+        
+        // Note: id and userId are typically not updated via merge
+        
+        return paymentMethod;
+    }
 }

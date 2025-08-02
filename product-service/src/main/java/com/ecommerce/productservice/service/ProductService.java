@@ -34,13 +34,24 @@ public class ProductService {
         return productRepository.findById(id).map(ProductMapper::toDTO);
     }
 
+    @Transactional
     public ProductDTO updateProduct(ProductDTO productDTO) {
-        Product productToUpdate = productRepository.findById(productDTO.getId()).orElseThrow(() -> new RuntimeException("Product not found"));
-        Product product = ProductMapper.mergeWithDTO(productToUpdate, productDTO);
-        product.setCategory(categoryRepository.findById(productDTO.getCategoryId()).orElse(null));
-        product.setBrand(productDTO.getBrand());
-        Product updated = productRepository.save(product);
-        return ProductMapper.toDTO(updated);
+        // Fetch the existing product
+        Product existingProduct = productRepository.findById(productDTO.getId())
+            .orElseThrow(() -> new RuntimeException("Product not found with id: " + productDTO.getId()));
+        
+        // Merge the DTO data with the existing product
+        Product updatedProduct = ProductMapper.mergeWithDTO(existingProduct, productDTO);
+        
+        // Handle category update if categoryId is provided
+        if (productDTO.getCategoryId() != null) {
+            updatedProduct.setCategory(categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + productDTO.getCategoryId())));
+        }
+        
+        // Save and return the updated product
+        Product savedProduct = productRepository.save(updatedProduct);
+        return ProductMapper.toDTO(savedProduct);
     }
 
     public void deleteProduct(Long id) {

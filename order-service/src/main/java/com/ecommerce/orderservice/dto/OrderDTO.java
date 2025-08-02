@@ -1,5 +1,7 @@
 package com.ecommerce.orderservice.dto;
 
+import com.ecommerce.orderservice.model.OrderStatus;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -15,9 +17,9 @@ import lombok.NoArgsConstructor;
 public class OrderDTO {
     private Long id;
     private Long userId;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private BigDecimal totalAmount;
     private Instant createdAt;
     private Instant updatedAt;
     private Long addressId;
-} 
+}

@@ -1,5 +1,6 @@
 package com.ecommerce.orderservice.controller;
 
+import com.ecommerce.orderservice.dto.CancelOrderRequest;
 import com.ecommerce.orderservice.dto.OrderDTO;
 import com.ecommerce.orderservice.dto.OrderRequest;
 import com.ecommerce.orderservice.dto.PageRequestDTO;
@@ -44,6 +45,11 @@ public class OrderController {
 
     @PostMapping("/list")
     public Page<OrderDTO> listOrders(@RequestBody PageRequestDTO pageRequestDTO) {
-        return orderService.listOrders(pageRequestDTO);
+        return orderService.listOrdersPaginated(pageRequestDTO);
     }
-} 
+    
+    @PostMapping("/cancel")
+    public ResponseEntity<OrderDTO> cancelOrder(@Valid @RequestBody CancelOrderRequest cancelRequest) {
+        return ResponseEntity.ok(orderService.cancelOrder(cancelRequest));
+    }
+}

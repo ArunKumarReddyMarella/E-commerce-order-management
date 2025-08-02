@@ -82,4 +82,32 @@ public class PaymentMapper {
         }
         return payment;
     }
+
+    /**
+     * Merges non-null fields from PaymentDTO into an existing Payment entity
+     * @param payment The existing payment to be updated
+     * @param dto The DTO containing updated values
+     * @return The updated Payment entity
+     */
+    public static Payment mergeWithDTO(Payment payment, PaymentDTO dto) {
+        if (dto == null || payment == null) {
+            return payment;
+        }
+        
+        if (dto.getAmount() != null) {
+            payment.setAmount(dto.getAmount());
+        }
+        if (dto.getPaymentMethod() != null) {
+            payment.setPaymentMethod(dto.getPaymentMethod());
+        }
+        if (dto.getStatus() != null) {
+            payment.setStatus(dto.getStatus());
+        }
+        if (dto.getTransactionId() != null) {
+            payment.setTransactionId(dto.getTransactionId());
+        }
+        // Note: id, orderId, userId, createdAt, and updatedAt are typically not updated via merge
+        
+        return payment;
+    }
 }

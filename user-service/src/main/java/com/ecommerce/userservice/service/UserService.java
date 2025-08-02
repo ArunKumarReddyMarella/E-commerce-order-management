@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,11 +42,24 @@ public class UserService {
         return userRepository.findById(id).map(UserMapper::toDTO);
     }
 
+    @Transactional
     public UserDTO updateUser(UserDTO userDTO) {
-        User user = UserMapper.toEntity(userDTO);
-        user.setRole(roleRepository.findById(userDTO.getRole().getId()).orElse(null));
-        User updated = userRepository.save(user);
-        return UserMapper.toDTO(updated);
+        // Fetch the existing user
+        User existingUser = userRepository.findById(userDTO.getId())
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userDTO.getId()));
+        
+        // Merge the DTO data with the existing user
+        User updatedUser = UserMapper.mergeWithDTO(existingUser, userDTO);
+        
+        // Handle role update if role is provided
+        if (userDTO.getRole() != null && userDTO.getRole().getId() != null) {
+            updatedUser.setRole(roleRepository.findById(userDTO.getRole().getId())
+                .orElseThrow(() -> new RuntimeException("Role not found with id: " + userDTO.getRole().getId())));
+        }
+        
+        // Save and return the updated user
+        User savedUser = userRepository.save(updatedUser);
+        return UserMapper.toDTO(savedUser);
     }
 
     public void deleteUser(Long id) {

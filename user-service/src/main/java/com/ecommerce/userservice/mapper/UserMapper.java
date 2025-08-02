@@ -60,4 +60,32 @@ public class UserMapper {
         }
         return user;
     }
+
+    /**
+     * Merges non-null fields from UserDTO into an existing User entity
+     * @param user The existing user to be updated
+     * @param dto The DTO containing updated values
+     * @return The updated User entity
+     */
+    public static User mergeWithDTO(User user, UserDTO dto) {
+        if (dto == null || user == null) {
+            return user;
+        }
+        
+        if (dto.getUsername() != null) {
+            user.setUsername(dto.getUsername());
+        }
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getPassword() != null) {
+            user.setPassword(dto.getPassword());
+        }
+        if (dto.getRole() != null) {
+            user.setRole(RoleMapper.toEntity(dto.getRole()));
+        }
+        // Note: id, createdAt, and updatedAt are typically not updated via merge
+        
+        return user;
+    }
 } 

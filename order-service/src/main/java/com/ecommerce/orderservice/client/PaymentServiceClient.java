@@ -9,4 +9,6 @@ import com.ecommerce.orderservice.dto.PaymentDTO;
 public interface PaymentServiceClient {
     @PostMapping("/api/payments")
     PaymentDTO processPayment(@RequestBody PaymentDTO paymentDTO);
+
+
 } 

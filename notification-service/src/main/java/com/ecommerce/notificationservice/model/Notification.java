@@ -19,7 +19,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "notifications")
 @EntityListeners(AuditingEntityListener.class)
-public class Notification {
+public class  Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

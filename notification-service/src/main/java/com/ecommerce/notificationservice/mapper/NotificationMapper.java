@@ -58,4 +58,32 @@ public class NotificationMapper {
                 .readAt(dto.getReadAt())
                 .build();
     }
+
+    /**
+     * Merges non-null fields from NotificationDTO into an existing Notification entity
+     * @param notification The existing notification to be updated
+     * @param dto The DTO containing updated values
+     * @return The updated Notification entity
+     */
+    public static Notification mergeWithDTO(Notification notification, NotificationDTO dto) {
+        if (dto == null || notification == null) {
+            return notification;
+        }
+        
+        if (dto.getType() != null) {
+            notification.setType(dto.getType());
+        }
+        if (dto.getStatus() != null) {
+            notification.setStatus(dto.getStatus());
+        }
+        if (dto.getMessage() != null) {
+            notification.setMessage(dto.getMessage());
+        }
+        if (dto.getReadAt() != null) {
+            notification.setReadAt(dto.getReadAt());
+        }
+        // Note: id, userId, and createdAt are typically not updated via merge
+        
+        return notification;
+    }
 }
